@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rootElement>
+<tracks rows="10000" startRow="0" endRow="10000" rowsPerBeat="8"
+beatsPerMin="125">
+	<track name="H#y_offset" folded="0" muteKeyCount="0"
+color="ffb27474">
+		<key row="0" value="0.000000" interpolation="2" />
+		<key row="20" value="0.800000" interpolation="3" />
+		<key row="30" value="0.000000" interpolation="0" />
+	</track>
+	<track name="H#opacity" folded="0" muteKeyCount="0"
+color="ffb27474" />
+	<track name="i#y_offset" folded="0" muteKeyCount="0"
+color="ffb27474" />
+	<track name="i#opacity" folded="0" muteKeyCount="0"
+color="ffb27474" />
+</tracks>
+	</rootElement>
