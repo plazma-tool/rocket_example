@@ -2,6 +2,7 @@
 
 use std::path::PathBuf;
 use std::thread::sleep;
+use std::time::Duration;
 
 #[macro_use]
 extern crate log;
@@ -9,12 +10,16 @@ extern crate env_logger;
 
 #[macro_use]
 extern crate glium;
+extern crate notify;
 
 extern crate rocket_sync;
 extern crate rocket_client;
 
 use glium::{glutin, Surface};
 use glium::glutin::{Event, VirtualKeyCode, WindowEvent};
+
+use notify::{RecommendedWatcher, Watcher, RecursiveMode, DebouncedEvent};
+use std::sync::mpsc::channel;
 
 use rocket_client::SyncClient;
 
@@ -56,30 +61,37 @@ fn main() {
 
     // path is relative to PWD, which is the project folder when running with 'cargo run'
     let vertex_shader_src = file_to_string(&PathBuf::from("./data/screen_quad.vert")).unwrap();
-    let fragment_shader_src = file_to_string(&PathBuf::from("./data/shader.frag")).unwrap();
+    let mut fragment_shader_src = file_to_string(&PathBuf::from("./data/shader.frag")).unwrap();
 
-    let program = glium::Program::from_source(&display, &vertex_shader_src, &fragment_shader_src, None).unwrap();
+    let mut program = glium::Program::from_source(&display,
+                                                  &vertex_shader_src,
+                                                  &fragment_shader_src,
+                                                  None).unwrap();
 
     // Rocket
 
     let mut rocket: Option<SyncClient> = None;
 
     let track_names = vec![
-        "H#y_offset".to_owned(),
-        "H#opacity".to_owned(),
-        "i#y_offset".to_owned(),
-        "i#opacity".to_owned(),
+        "H_y".to_owned(),
+        "i_y".to_owned(),
+        "ground_y".to_owned(),
+        "interlace".to_owned(),
+        "white_noise".to_owned(),
     ];
 
    // State::new() will connect to a Rocket Editor or keep trying every 1 second
 
     let mut state: State = State::new(&mut rocket, track_names).unwrap();
 
-    if rocket.is_some() {
-        state.set_is_paused(true);
-    } else {
-        state.set_is_paused(false);
-    }
+    // Always start paused, we are not loading track data on our own and we need
+    // Rocket to tell us what to do.
+    state.set_is_paused(true);
+
+    // watches every file in the data folder
+    let (tx, rx) = channel();
+    let mut watcher: RecommendedWatcher = Watcher::new(tx, Duration::from_secs(1)).unwrap();
+    watcher.watch(PathBuf::from("./data/"), RecursiveMode::Recursive).unwrap();
 
     while state.get_is_running() {
 
@@ -98,12 +110,16 @@ fn main() {
 
         // 4. sync variable values
 
+        let t = state.get_sync_device().time as f32 / 1000.0;
+
         let uniforms = uniform! {
+            iGlobalTime: t,
             iResolution: state.window_resolution,
-            H_y_offset:  state.get_track_value(0),
-            H_opacity:   state.get_track_value(1),
-            i_y_offset:  state.get_track_value(2),
-            i_opacity:   state.get_track_value(3),
+            H_y:         state.get_track_value(0),
+            i_y:         state.get_track_value(1),
+            ground_y:    state.get_track_value(2),
+            interlace:   state.get_track_value(3),
+            white_noise: state.get_track_value(4),
         };
 
         // 5. deal with events
@@ -129,7 +145,31 @@ fn main() {
             }
         });
 
-        // 6. draw if we are not paused or should draw anyway (e.g. window resized)
+        // 6. recompile the shader on change
+
+        match rx.try_recv() {
+            Ok(event) => {
+                match event {
+                    DebouncedEvent::Write(full_path) => {
+                        info!("Change detected: {:?}", full_path);
+                        let p: &str = full_path.to_str().unwrap();
+                        if p.ends_with(".frag") {
+                            info!("Recompiling the shader");
+                            fragment_shader_src = file_to_string(&PathBuf::from("./data/shader.frag")).unwrap();
+                            program = glium::Program::from_source(&display,
+                                                                  &vertex_shader_src,
+                                                                  &fragment_shader_src,
+                                                                  None).unwrap();
+                            state.draw_anyway = true;
+                        }
+                    },
+                    _ => {},
+                }
+            },
+            Err(_) => {},
+        }
+
+        // 7. draw if we are not paused or should draw anyway (e.g. window resized)
 
         let mut target = display.draw();
 
@@ -142,7 +182,7 @@ fn main() {
 
         target.finish().unwrap();
 
-        // 7. sleep if there is time left
+        // 8. sleep if there is time left
 
         state.t_delta = state.t_frame_start.elapsed();
 

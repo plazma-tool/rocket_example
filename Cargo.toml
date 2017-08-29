@@ -5,6 +5,7 @@ authors = ["etd <erethedaybreak@gmail.com>"]
 
 [dependencies]
 glium = "0.17.0"
+notify = "3.0"
 
 rocket_client = { git = "https://github.com/make-a-demo-tool-in-rust/rocket_client.git" }
 rocket_sync = { git = "https://github.com/make-a-demo-tool-in-rust/rocket_sync.git" }

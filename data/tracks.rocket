@@ -2,17 +2,50 @@
 <rootElement>
 <tracks rows="10000" startRow="0" endRow="10000" rowsPerBeat="8"
 beatsPerMin="125">
-	<track name="H#y_offset" folded="0" muteKeyCount="0"
-color="ffb27474">
-		<key row="0" value="0.000000" interpolation="2" />
-		<key row="20" value="0.800000" interpolation="3" />
-		<key row="30" value="0.000000" interpolation="0" />
+	<track name="H_y" folded="0" muteKeyCount="0" color="ffb27474">
+		<key row="0" value="-2.600000" interpolation="3" />
+		<key row="30" value="0.000000" interpolation="1" />
+		<key row="31" value="0.050000" interpolation="1" />
+		<key row="32" value="0.000000" interpolation="1" />
 	</track>
-	<track name="H#opacity" folded="0" muteKeyCount="0"
-color="ffb27474" />
-	<track name="i#y_offset" folded="0" muteKeyCount="0"
-color="ffb27474" />
-	<track name="i#opacity" folded="0" muteKeyCount="0"
-color="ffb27474" />
+	<track name="i_y" folded="0" muteKeyCount="0" color="ffb27474">
+		<key row="0" value="-2.600000" interpolation="0" />
+		<key row="18" value="-2.600000" interpolation="3" />
+		<key row="48" value="0.000000" interpolation="0" />
+		<key row="49" value="0.050000" interpolation="0" />
+		<key row="50" value="0.000000" interpolation="0" />
+	</track>
+	<track name="ground_y" folded="0" muteKeyCount="0"
+color="ffb27474">
+		<key row="30" value="0.000000" interpolation="1" />
+		<key row="31" value="-0.050000" interpolation="1" />
+		<key row="32" value="0.000000" interpolation="1" />
+		<key row="48" value="0.000000" interpolation="1" />
+		<key row="49" value="-0.050000" interpolation="1" />
+		<key row="50" value="0.000000" interpolation="1" />
+	</track>
+	<track name="interlace" folded="0" muteKeyCount="0"
+color="ffb27474">
+		<key row="30" value="0.000000" interpolation="0" />
+		<key row="31" value="1.000000" interpolation="0" />
+		<key row="34" value="0.000000" interpolation="0" />
+		<key row="48" value="0.000000" interpolation="0" />
+		<key row="49" value="1.000000" interpolation="0" />
+		<key row="52" value="0.000000" interpolation="0" />
+		<key row="57" value="1.000000" interpolation="0" />
+		<key row="60" value="0.000000" interpolation="1" />
+		<key row="61" value="1.000000" interpolation="1" />
+		<key row="62" value="1.000000" interpolation="1" />
+		<key row="63" value="1.000000" interpolation="1" />
+		<key row="64" value="0.000000" interpolation="1" />
+		<key row="65" value="1.000000" interpolation="1" />
+		<key row="68" value="0.000000" interpolation="1" />
+		<key row="71" value="1.000000" interpolation="1" />
+	</track>
+	<track name="white_noise" folded="0" muteKeyCount="0"
+color="ffb27474">
+		<key row="65" value="0.000000" interpolation="2" />
+		<key row="73" value="1.000000" interpolation="0" />
+	</track>
 </tracks>
 	</rootElement>
