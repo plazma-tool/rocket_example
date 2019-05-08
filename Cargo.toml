@@ -8,5 +8,5 @@ edition = "2018"
 glium = "0.17.0"
 notify = "3.0"
 
-rocket_client = "0.1.0"
-rocket_sync = "0.1.0"
+rocket_client = "0.1"
+rocket_sync = "0.1"

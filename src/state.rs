@@ -4,7 +4,7 @@ use std::time::{Duration, Instant};
 use rocket_sync::{SyncDevice, SyncTrack};
 use rocket_client::SyncClient;
 
-use error::ToolError;
+use crate::error::ToolError;
 
 pub struct State {
     pub t_rocket_last_connection_attempt: Instant,

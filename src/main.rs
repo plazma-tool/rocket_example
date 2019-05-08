@@ -31,7 +31,8 @@ use state::State;
 use utils::file_to_string;
 
 fn main() {
-    env_logger::init().unwrap();
+    std::env::set_var("RUST_LOG", "rocket_example,rocket_sync");
+    env_logger::init();
     info!("main: started");
 
     // Setup glium

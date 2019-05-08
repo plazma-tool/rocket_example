@@ -11,7 +11,7 @@ the `env_logger` messages, it can be useful.
 ~~~ bash
 git clone https://github.com/plazma-tool/rocket_example
 cd rocket_example
-RUST_LOG=rocket_example,rocket_sync cargo run
+cargo run
 ~~~
 
 To see the animation, you will also need to install Rocket and open
