@@ -9,7 +9,7 @@ To get this going on your machine, clone the example repo and compile. Enable
 the `env_logger` messages, it can be useful.
 
 ~~~ bash
-git clone https://github.com/make-a-demo-tool-in-rust/rocket_example
+git clone https://github.com/plazma-tool/rocket_example
 cd rocket_example
 RUST_LOG=rocket_example,rocket_sync cargo run
 ~~~
